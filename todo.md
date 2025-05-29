@@ -25,8 +25,8 @@
 
 ## Фаза 2: Основные компоненты ⬜
 - [x] Edge API gateway
-- [ ] Redis интеграция
-- [ ] RabbitMQ настройка
+- [x] Redis интеграция
+- [x] RabbitMQ настройка
 - [x] Базовый UI чата
   - [x] ChatHeader (логотип + статус AI)
   - [x] MessageList (список сообщений с анимацией)
@@ -44,7 +44,13 @@
   - [x] MeditationRecommender - рекомендации медитаций
   - [x] EmotionSnapshotManager - управление снапшотами
   - [x] Unit-тесты для всех сервисов
-- [ ] Emotion analyzer worker
+- [x] Emotion analyzer worker
+  - [x] Структура воркера
+  - [x] Интеграция с RabbitMQ
+  - [x] Интеграция с Redis
+  - [x] Подключение бизнес-логики из @gc/domain
+  - [x] Тесты и моки
+  - [x] Интеграция с web-приложением
 - [ ] Prompt builder
 - [ ] Интеграция с AI (mock)
 - [ ] Система снапшотов
@@ -61,5 +67,5 @@
 - [ ] CI/CD pipeline
 - [ ] Документация
 
-## Текущий этап: 3.2 - Доменная логика ✅
-## Следующий этап: 3.3 - Emotion analyzer worker
+## Текущий этап: 3.3 - Emotion analyzer worker ✅
+## Следующий этап: 3.4 - Prompt builder
