@@ -15,14 +15,22 @@
   - [x] Созданы директории packages/ (@gc/types, @gc/domain, @gc/lib-redis, @gc/lib-rabbit, @gc/ui)
   - [x] Созданы директории services/ (emotion-worker, prompt-worker)
   - [x] Созданы директории infra/pulumi, docs/, tests/, scripts/
-- [ ] Настройка Next.js приложения
+- [x] Настройка Next.js приложения
+  - [x] Настроен Tailwind CSS с успокаивающей цветовой схемой
+  - [x] Создана страница /chat с компонентами
+  - [x] Реализован Edge Route /api/chat
+  - [x] Добавлена стилизация с мягкими тенями и анимациями
 - [ ] Настройка TypeScript для всех пакетов
 
 ## Фаза 2: Основные компоненты ⬜
-- [ ] Edge API gateway
+- [x] Edge API gateway
 - [ ] Redis интеграция
 - [ ] RabbitMQ настройка
-- [ ] Базовый UI чата
+- [x] Базовый UI чата
+  - [x] ChatHeader (логотип + статус AI)
+  - [x] MessageList (список сообщений с анимацией)
+  - [x] ChatInput (поле ввода с кнопкой отправки)
+  - [x] EmotionIndicator (визуализация текущей эмоции)
 
 ## Фаза 3: AI и анализ эмоций ⬜
 - [ ] Emotion analyzer worker
@@ -42,5 +50,5 @@
 - [ ] CI/CD pipeline
 - [ ] Документация
 
-## Текущий этап: 1.1 - Создание корневой структуры ✅
-## Следующий этап: 2.1 - Next.js приложение с чатом
+## Текущий этап: 2.1 - Next.js приложение с чатом ✅
+## Следующий этап: 3.1 - Пакет типов
