@@ -1,4 +1,3 @@
-// Обновляем package.json в web приложении, чтобы добавить зависимость на @gc/types
 {
   "name": "web",
   "version": "0.1.0",
@@ -11,6 +10,7 @@
   },
   "dependencies": {
     "@gc/types": "workspace:*",
+    "@gc/domain": "workspace:*",
     "framer-motion": "^10.16.4",
     "next": "^15.0.0",
     "react": "^18.2.0",

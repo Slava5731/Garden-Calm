@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
 
-// Импортируем типы из пакета @gc/types
+// Импортируем типы и доменную логику
 import { Message as MessageType, Emotion, EmotionTone } from '@gc/types';
+import { EmotionAnalyzer, MeditationRecommender } from '@gc/domain';
 
 import ChatHeader from '../../components/ChatHeader';
 import MessageList from '../../components/MessageList';
@@ -20,12 +21,16 @@ export default function ChatPage() {
     type: 'neutral',
     score: 50
   });
+  
+  // Инициализируем сервисы из доменной логики
+  const emotionAnalyzer = new EmotionAnalyzer();
+  const meditationRecommender = new MeditationRecommender();
 
   // Функция для отправки сообщения
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
 
-    // Создаем новое сообщение пользователя с использованием типа MessageType
+    // Создаем новое сообщение пользователя
     const userMessage: MessageType = {
       id: uuidv4(),
       userId: 'user-123',
@@ -42,41 +47,59 @@ export default function ChatPage() {
     setAiStatus('thinking');
 
     try {
-      // Отправляем запрос на API
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: content, userId: 'user-123' }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Ошибка при отправке сообщения');
-      }
-
-      // Получаем ответ от API
-      const data = await response.json();
+      // Анализируем эмоцию с помощью доменной логики
+      const emotion = emotionAnalyzer.analyzeEmotion(content);
       
-      // Создаем новое сообщение от ассистента с использованием типа MessageType
+      // Получаем рекомендации медитаций на основе эмоции
+      const recommendedMeditations = meditationRecommender.recommendMeditations(emotion, 2);
+      
+      // Формируем ответ на основе анализа эмоций и рекомендаций
+      let responseContent = '';
+      
+      if (emotion.tone === 'positive') {
+        responseContent = `Я чувствую вашу ${emotion.keywords[0] || 'позитивную энергию'}! Это замечательно. `;
+      } else if (emotion.tone === 'anxious') {
+        responseContent = `Я понимаю, что вы испытываете тревогу. Давайте поработаем с этим чувством. `;
+      } else if (emotion.tone === 'sad') {
+        responseContent = `Я вижу, что вам грустно. Это нормально - позволить себе эти чувства. `;
+      } else if (emotion.tone === 'angry') {
+        responseContent = `Я чувствую ваше раздражение. Давайте найдем способ трансформировать эту энергию. `;
+      } else {
+        responseContent = `Спасибо, что поделились своими мыслями. `;
+      }
+      
+      // Добавляем рекомендации медитаций
+      if (recommendedMeditations.length > 0) {
+        responseContent += `\n\nЯ рекомендую вам попробовать медитацию "${recommendedMeditations[0].title}" (${recommendedMeditations[0].duration} мин). ${recommendedMeditations[0].description}.`;
+        
+        if (recommendedMeditations.length > 1) {
+          responseContent += `\n\nТакже подойдет "${recommendedMeditations[1].title}" (${recommendedMeditations[1].duration} мин).`;
+        }
+      }
+      
+      // Создаем новое сообщение от ассистента
       const assistantMessage: MessageType = {
         id: uuidv4(),
         userId: 'assistant-1',
-        content: data.message,
+        content: responseContent,
         role: 'assistant',
-        timestamp: new Date()
+        timestamp: new Date(),
+        emotion: emotion
       };
 
-      // Добавляем сообщение ассистента в список
-      setMessages(prev => [...prev, assistantMessage]);
-      
-      // Обновляем эмоцию на основе анализа
-      if (data.emotion) {
+      // Добавляем сообщение ассистента в список с небольшой задержкой для эффекта печатания
+      setTimeout(() => {
+        setMessages(prev => [...prev, assistantMessage]);
+        setIsLoading(false);
+        setAiStatus('online');
+        
+        // Обновляем текущую эмоцию
         setCurrentEmotion({
-          type: data.emotion.tone as EmotionTone,
-          score: data.emotion.score
+          type: emotion.tone,
+          score: emotion.score
         });
-      }
+      }, 1500);
+      
     } catch (error) {
       console.error('Ошибка:', error);
       
@@ -90,8 +113,6 @@ export default function ChatPage() {
       };
       
       setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      // Возвращаем статус AI в "онлайн"
       setIsLoading(false);
       setAiStatus('online');
     }

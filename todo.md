@@ -39,6 +39,11 @@
   - [x] snapshot.types.ts
   - [x] message.types.ts
   - [x] meditation.types.ts
+- [x] Доменная логика
+  - [x] EmotionAnalyzer - анализ эмоций в сообщениях
+  - [x] MeditationRecommender - рекомендации медитаций
+  - [x] EmotionSnapshotManager - управление снапшотами
+  - [x] Unit-тесты для всех сервисов
 - [ ] Emotion analyzer worker
 - [ ] Prompt builder
 - [ ] Интеграция с AI (mock)
@@ -56,5 +61,5 @@
 - [ ] CI/CD pipeline
 - [ ] Документация
 
-## Текущий этап: 3.1 - Пакет типов ✅
-## Следующий этап: 3.2 - Доменная логика
+## Текущий этап: 3.2 - Доменная логика ✅
+## Следующий этап: 3.3 - Emotion analyzer worker
