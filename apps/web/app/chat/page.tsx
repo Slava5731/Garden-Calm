@@ -4,16 +4,19 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
 
+// Импортируем типы из пакета @gc/types
+import { Message as MessageType, Emotion, EmotionTone } from '@gc/types';
+
 import ChatHeader from '../../components/ChatHeader';
-import MessageList, { Message } from '../../components/MessageList';
+import MessageList from '../../components/MessageList';
 import ChatInput from '../../components/ChatInput';
-import EmotionIndicator, { EmotionType } from '../../components/EmotionIndicator';
+import EmotionIndicator from '../../components/EmotionIndicator';
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [aiStatus, setAiStatus] = useState<'online' | 'thinking' | 'offline'>('online');
-  const [currentEmotion, setCurrentEmotion] = useState<{ type: EmotionType; score: number }>({
+  const [currentEmotion, setCurrentEmotion] = useState<{ type: EmotionTone; score: number }>({
     type: 'neutral',
     score: 50
   });
@@ -22,9 +25,10 @@ export default function ChatPage() {
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
 
-    // Создаем новое сообщение пользователя
-    const userMessage: Message = {
+    // Создаем новое сообщение пользователя с использованием типа MessageType
+    const userMessage: MessageType = {
       id: uuidv4(),
+      userId: 'user-123',
       content,
       role: 'user',
       timestamp: new Date()
@@ -54,9 +58,10 @@ export default function ChatPage() {
       // Получаем ответ от API
       const data = await response.json();
       
-      // Создаем новое сообщение от ассистента
-      const assistantMessage: Message = {
+      // Создаем новое сообщение от ассистента с использованием типа MessageType
+      const assistantMessage: MessageType = {
         id: uuidv4(),
+        userId: 'assistant-1',
         content: data.message,
         role: 'assistant',
         timestamp: new Date()
@@ -68,7 +73,7 @@ export default function ChatPage() {
       // Обновляем эмоцию на основе анализа
       if (data.emotion) {
         setCurrentEmotion({
-          type: data.emotion.tone,
+          type: data.emotion.tone as EmotionTone,
           score: data.emotion.score
         });
       }
@@ -76,8 +81,9 @@ export default function ChatPage() {
       console.error('Ошибка:', error);
       
       // Добавляем сообщение об ошибке
-      const errorMessage: Message = {
+      const errorMessage: MessageType = {
         id: uuidv4(),
+        userId: 'assistant-1',
         content: 'Извините, произошла ошибка при обработке вашего сообщения. Пожалуйста, попробуйте еще раз.',
         role: 'assistant',
         timestamp: new Date()
@@ -93,8 +99,9 @@ export default function ChatPage() {
 
   // Добавляем приветственное сообщение при первой загрузке
   useEffect(() => {
-    const welcomeMessage: Message = {
+    const welcomeMessage: MessageType = {
       id: uuidv4(),
+      userId: 'assistant-1',
       content: 'Привет! Я AI-коуч Garden Calm. Расскажите, как вы себя чувствуете сегодня, и я помогу подобрать подходящую медитацию.',
       role: 'assistant',
       timestamp: new Date()
