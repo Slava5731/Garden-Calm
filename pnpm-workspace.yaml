@@ -2,4 +2,5 @@ packages:
   - 'apps/*'
   - 'packages/*'
   - 'packages/@gc/*'
-  - 'services/*'
+  # Временно отключены для локальной разработки без Redis и Upstash
+  # - 'services/*'
