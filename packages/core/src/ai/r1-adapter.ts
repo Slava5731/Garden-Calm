@@ -30,7 +30,7 @@ export class R1Adapter {
     this.config = {
       apiKey: config.apiKey,
       endpoint: config.endpoint || 'https://api.deepseek.com/v1/chat/completions',
-      model: config.model || 'deepseek-chat',
+      model: config.model || 'deepseek-r1-0528',
       timeout: config.timeout || 30000
     };
   }

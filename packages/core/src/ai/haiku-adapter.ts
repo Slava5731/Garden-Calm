@@ -21,7 +21,7 @@ export class HaikuAdapter {
     this.config = {
       apiKey: config.apiKey,
       endpoint: config.endpoint || 'https://api.anthropic.com/v1/messages',
-      model: config.model || 'claude-3-haiku-20240307',
+      model: config.model || 'claude-3-5-sonnet-20240620',
       timeout: config.timeout || 3000
     };
   }
