@@ -36,11 +36,11 @@ export interface AnalysisResult {
 
 export class EmpathyOrchestrator {
   private v3Adapter: V3Adapter;
-  private memoryStore: IMemoryStore;
-  private scoringEngine: ScoringEngine;
-  private contextManager: ContextManager;
-  private suggestionEngine: SuggestionEngine;
-  private decisionEngine: DecisionEngine;
+  protected memoryStore: IMemoryStore;
+  protected scoringEngine: ScoringEngine;
+  protected contextManager: ContextManager;
+  protected suggestionEngine: SuggestionEngine;
+  protected decisionEngine: DecisionEngine;
   
   // Временная реализация фабрики для создания хранилища
   private createDefaultMemoryStore(): IMemoryStore {

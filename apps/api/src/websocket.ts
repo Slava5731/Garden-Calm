@@ -1,14 +1,17 @@
 import { Server as HttpServer } from 'http';
 import { Server as WebSocketServer } from 'ws';
-import { createEmpathyOrchestrator } from '@garden-calm/core';
+import { createEmpathyOrchestrator, createAIOrchestrator } from '@garden-calm/core';
 
 export function setupWebSocketServer(server: HttpServer) {
   // Создаем WebSocket сервер
   const wss = new WebSocketServer({ server });
 
-  // Инициализируем оркестратор
-  const orchestrator = createEmpathyOrchestrator({
-    v3ApiKey: process.env.V3_API_KEY || 'demo-key'
+  // Инициализируем оркестратор с поддержкой AI
+  const orchestrator = createAIOrchestrator({
+    v3ApiKey: process.env.V3_API_KEY || 'demo-key',
+    haikuApiKey: process.env.HAIKU_API_KEY,
+    r1ApiKey: process.env.R1_API_KEY,
+    enableAI: process.env.ENABLE_AI === 'true'
   });
 
   // Обработка подключений
@@ -45,6 +48,15 @@ export function setupWebSocketServer(server: HttpServer) {
             result,
             timestamp: Date.now()
           }));
+          
+          // Если есть ответ от Haiku, отправляем его
+          if ((result as any).assistantResponse) {
+            ws.send(JSON.stringify({
+              type: 'assistant_message',
+              content: (result as any).assistantResponse,
+              timestamp: Date.now()
+            }));
+          }
           
           // Если нужно предложить медитацию
           if (result.shouldSuggestMeditation) {

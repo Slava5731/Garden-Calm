@@ -4,5 +4,6 @@ export * from './emotion-matrix';
 export * from './ai';
 export * from './empathy';
 
-// Export orchestrator (will be added later)
-// export * from './orchestrator';
+// Export orchestrator
+export * from './empathy/orchestrator';
+export * from './empathy/orchestrator-with-ai';
