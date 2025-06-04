@@ -1,0 +1,37 @@
+{
+  "name": "garden-calm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-компаньон для медитаций и эмоциональной поддержки",
+  "scripts": {
+    "dev": "pnpm --filter @garden-calm/api dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "clean": "pnpm -r clean"
+  },
+  "keywords": [
+    "meditation",
+    "ai",
+    "empathy",
+    "emotional-support"
+  ],
+  "author": "Garden Calm Team",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.1",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "tsup": "^8.0.1",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  }
+}
