@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --dts",
+    "build": "tsup src/index.ts && tsc --emitDeclarationOnly --declaration",
     "dev": "tsup src/index.ts --watch",
     "clean": "rimraf dist",
     "lint": "eslint src --ext .ts",

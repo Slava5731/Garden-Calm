@@ -2,7 +2,21 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@garden-calm/types": ["../../packages/types/dist", "../../packages/types/src"],
+      "@garden-calm/core": ["../../packages/core/dist", "../../packages/core/src"],
+      "@garden-calm/storage": ["../../packages/storage/dist", "../../packages/storage/src"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../../packages/types" },
+    { "path": "../../packages/core" },
+    { "path": "../../packages/storage" }
+  ]
 }

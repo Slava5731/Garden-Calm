@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { setupWebSocketServer } from './websocket';
+import messageRouter from './routes/message';
 
 // Загружаем переменные окружения
 dotenv.config();
@@ -13,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Подключаем маршруты
+app.use('/api', messageRouter);
 
 // Базовый маршрут для проверки работоспособности
 app.get('/api/health', (req, res) => {

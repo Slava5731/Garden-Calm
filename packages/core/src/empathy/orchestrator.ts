@@ -7,6 +7,7 @@ import {
   R1Context,
   IMemoryStore
 } from '@garden-calm/types';
+import { InMemoryMemoryStore } from '../interfaces/in-memory-store';
 import { V3Adapter } from '../ai/v3-adapter';
 import { ScoringEngine } from './scoring-engine';
 import { ContextManager } from './context-manager';
@@ -35,11 +36,16 @@ export interface AnalysisResult {
 
 export class EmpathyOrchestrator {
   private v3Adapter: V3Adapter;
+  private memoryStore: IMemoryStore;
   private scoringEngine: ScoringEngine;
   private contextManager: ContextManager;
   private suggestionEngine: SuggestionEngine;
   private decisionEngine: DecisionEngine;
-  private memoryStore: IMemoryStore;
+  
+  // Временная реализация фабрики для создания хранилища
+  private createDefaultMemoryStore(): IMemoryStore {
+    return new InMemoryMemoryStore(); // временно, пока не подключим фабрику
+  }
 
   constructor(config: OrchestratorConfig) {
     // Инициализация компонентов
@@ -261,7 +267,7 @@ export class EmpathyOrchestrator {
 
   // Статистика системы
   getSystemStats(): {
-    memory: ReturnType<MemoryStore['getStats']>;
+    memory: ReturnType<IMemoryStore['getStats']>;
     activeSessions: number;
     totalAnalyses: number;
   } {
